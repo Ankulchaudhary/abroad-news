@@ -12,7 +12,9 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 def get_news():
-    url = f"https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey={NEWS_API_KEY}"
+    # 'technology' ki jagah 'general' kar dein
+url = f"https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey={NEWS_API_KEY}"
+
     response = requests.get(url).json()
     articles = response.get('articles', [])
     # Sirf wahi news lein jinka description ho
