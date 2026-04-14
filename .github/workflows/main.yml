@@ -1,4 +1,4 @@
-name: Update AI News Website
+name: AbroadNews
 
 on:
   schedule:
