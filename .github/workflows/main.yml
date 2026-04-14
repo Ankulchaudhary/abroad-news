@@ -2,8 +2,8 @@ name: Update AI News Website
 
 on:
   schedule:
-    # Yeh har 6 ghante mein chalega (IST ke hisaab se set kiya ja sakta hai)
-    - cron: '0 */6 * * *'
+    # Yeh har 4 ghante mein chalega (IST ke hisaab se set kiya ja sakta hai)
+    - cron: '0 */4 * * *'
   workflow_dispatch: # Isse aap button daba kar manually bhi update kar sakte hain
 
 jobs:
