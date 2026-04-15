@@ -22,15 +22,19 @@ def get_news():
 def analyze_with_gemini(title, desc):
     prompt = f"Analyze this news in Hindi. Format: HEADLINE: [Title], SUMMARY: [News], INSIGHT: [Analysis]. News: {title} - {desc}"
     try:
-        # Naye SDK ka naya tareeka
+        def analyze_with_gemini(title, desc):
+    prompt = f"Analyze this news in Hindi. Format: HEADLINE: [Title], SUMMARY: [News], INSIGHT: [Analysis]. News: {title} - {desc}"
+    try:
+        # 1.5 ki jagah 2.0-flash use kar rahe hain
         response = client.models.generate_content(
-            model="gemini-1.5-flash", 
+            model="gemini-2.0-flash", 
             contents=prompt
         )
         return response.text
     except Exception as e:
         print(f"Gemini Error: {e}")
         return None
+    
 
 def update_html(news_list):
     now = datetime.now().strftime('%d %b %Y | %I:%M %p')
