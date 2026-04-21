@@ -5,23 +5,24 @@ on:
     branches:
       - main
   schedule:
-    # This triggers the script every hour
     - cron: '0 * * * *'
-  workflow_dispatch: # Allows you to run it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   run-automation:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # Important: Allows the bot to save news files back to GitHub
+      contents: write
 
     steps:
+      # actions/checkout@v4.1.1
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
+      # actions/setup-python@v5.0.0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c
         with:
           python-version: '3.10'
 
@@ -29,14 +30,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # Manual install in case requirements.txt is missing:
           pip install google-generativeai requests beautifulsoup4
 
       - name: Execute News Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python update_news.py 
-        # REPLACE 'update_news.py' with your actual file name (e.g., main.py)
+        # REMEMBER: 'update_news.py' to your actual filename
 
       - name: Commit and Push Results
         run: |
@@ -45,3 +45,4 @@ jobs:
           git add .
           git commit -m "Auto-update: Latest news processed" || echo "No changes to commit"
           git push
+          
