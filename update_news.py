@@ -7,14 +7,14 @@ if not api_key:
     print("Error: GEMINI_API_KEY is missing.")
     exit(1)
 
-# Initialize the client
 client = genai.Client(api_key=api_key)
 
 def generate_news_summary():
     try:
-        # Added 'models/' prefix - this usually solves the 404 error
+        # Try 'gemini-1.5-flash-latest' or just 'gemini-1.5-flash'
+        # The 'latest' tag often bypasses version errors
         response = client.models.generate_content(
-            model="models/gemini-1.5-flash", 
+            model="gemini-1.5-flash", 
             contents="Summarize the top 5 international news stories of today briefly."
         )
         
@@ -25,6 +25,7 @@ def generate_news_summary():
         print("Success: latest_news.md has been created!")
 
     except Exception as e:
+        # Let's see exactly what the error is if it fails again
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
