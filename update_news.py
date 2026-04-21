@@ -1,32 +1,30 @@
-import google.generativeai as genai
+from google import genai
 import os
-import requests
 
-# 1. Setup Gemini API
-# This reads the key you saved in GitHub Settings -> Secrets
+# Get the API key from GitHub Secrets
 api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
-    print("Error: GEMINI_API_KEY not found in environment variables.")
+    print("Error: GEMINI_API_KEY is missing.")
     exit(1)
 
-genai.configure(api_key=api_key)
+# Initialize the NEW client
+client = genai.Client(api_key=api_key)
 
 def generate_news_summary():
     try:
-        # Using Gemini 1.5 Flash (Fast and efficient)
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # Using the simplified call for the latest library
+        response = client.models.generate_content(
+            model="gemini-1.5-flash", 
+            contents="Provide a summary of the top 5 international news stories for today in a professional format."
+        )
         
-        prompt = "Provide a summary of the top 5 international news stories for today in a professional format."
-        
-        response = model.generate_content(prompt)
-        
-        # Save the result to a file
+        # Save the result
         with open("latest_news.md", "w", encoding="utf-8") as f:
             f.write("# Daily Abroad News Update\n\n")
             f.write(response.text)
             
-        print("News successfully updated!")
+        print("Success: News file created!")
 
     except Exception as e:
         print(f"An error occurred: {e}")
